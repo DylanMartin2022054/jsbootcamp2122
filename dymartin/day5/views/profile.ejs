@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Character Profile</title>
+</head>
+<h1>Stats Page</h1>
+
+<body>
+  <div id="content">
+
+  </div>
+</body>
+<script type="text/javascript">
+  var characterData = <%- JSON.stringify(sendData) %>
+  if (characterData) {
+    var contentBox = document.getElementById('content')
+    //box for profile stats
+    let profileBox = document.createElement('div');
+    profileBox.id = "profileBox"
+    //append it to contentBox
+    contentBox.append(profileBox)
+
+    let nameHeader = document.createElement('h2')
+    nameHeader.innerText = characterData.name;
+    contentBox.append(nameHeader);
+
+    let statsHeader = document.createElement('h3');
+    statsHeader.innerText = 'Stats';
+    let statsBox = document.createElement('div')
+    statsBox.innerHTML = JSON.stringify(characterData.stats)
+    profileBox.append(statsHeader);
+    profileBox.append(statsBox);
+
+
+    //object keys returns all properties in targeted objects
+    //for of searches through every property name, not its variable.
+    for (var slot of Object.keys(characterData.equipment)) {
+      //each slot has its own box
+      var slotHeader = document.createElement('h3');
+      slotHeader.innerHTML = slot;
+      //add equipment to each box
+      let slotBox = document.createElement('div')
+      slotBox.innerHTML = JSON.stringify(characterData.equipment[slot])
+
+      profileBox.append(slotHeader);
+      profileBox.append(slotBox);
+    }
+  }
+
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+  $(function() {
+    $("#profileBox").accordion({
+      collapsible: true
+    });
+  });
+</script>
+
+</html>
